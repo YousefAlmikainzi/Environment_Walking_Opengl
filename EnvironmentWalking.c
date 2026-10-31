@@ -6,6 +6,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+//My #include
+#include "ShaderLoader.h"
+
 #define RESOLUTION_Y 800
 #define RESOLUTION_X 800
 #define PI 3.14159265358979323846
@@ -19,7 +22,6 @@ int indexCount = col*(row - 1)*6;
 void framebuffer(GLFWwindow* window, int width, int height);
 float *Sphere();
 unsigned int *Sphere_Indices();
-void convertFileToString(char* strBuffer, FILE* shaderFile);
 
 int main()
 {
@@ -174,13 +176,4 @@ unsigned int *Sphere_Indices()
     }
 
     return sphereIndices;
-}
-
-void convertFileToString(char* strBuffer, FILE* shaderFile)
-{
-    fseek(shaderFile, 0, SEEK_END);
-    long fileSize = ftell(shaderFile);
-    rewind(shaderFile);
-    fread(strBuffer, 1, fileSize, shaderFile);
-    strBuffer[fileSize] = '\0';
 }

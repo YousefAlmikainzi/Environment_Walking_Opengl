@@ -25,6 +25,7 @@ unsigned int *Sphere_Indices();
 
 int main()
 {
+    //reading shader files, creating malloc for the, converting them into strings
     FILE *vertexFile = fopen("VertexShader.vs", "r");
     FILE *fragmentFile = fopen("FragmentShader.fs", "r");
 

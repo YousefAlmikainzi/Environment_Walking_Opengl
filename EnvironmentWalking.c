@@ -25,20 +25,6 @@ unsigned int *Sphere_Indices();
 
 int main()
 {
-    //reading shader files, creating malloc for the, converting them into strings
-    FILE *vertexFile = fopen("VertexShader.vs", "r");
-    FILE *fragmentFile = fopen("FragmentShader.fs", "r");
-
-    char *vertexSize = malloc(sizeof(char) * 2000);
-    char *fragmentSize = malloc(sizeof(char) * 2000);
-
-    convertFileToString(vertexSize, vertexFile);
-    convertFileToString(fragmentSize, fragmentFile);
-    const char* vertexString = vertexSize;
-    const char* fragmentString = fragmentSize;
-    fclose(vertexFile);
-    fclose(fragmentFile);
-
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -50,26 +36,8 @@ int main()
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glfwSetFramebufferSizeCallback(window, framebuffer);
 
-    unsigned int vertexID = 0;
-    vertexID = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexID, 1, &vertexString, NULL);
-    glCompileShader(vertexID);
-
-    unsigned int fragmentID = 0;
-    fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentID, 1, &fragmentString, NULL);
-    glCompileShader(fragmentID);
-
-    unsigned int shaderLink = 0;
-    shaderLink = glCreateProgram();
-    glAttachShader(shaderLink, vertexID);
-    glAttachShader(shaderLink, fragmentID);
-    glLinkProgram(shaderLink);
-
-    free(vertexSize);
-    free(fragmentSize);
-    glDeleteShader(vertexID);
-    glDeleteShader(fragmentID);
+    //reading shader files, creating malloc for the, converting them into strings
+    unsigned shaderLink = loadShader("VertexShader.vs", "FragmentShader.fs");
 
     float *sphere = Sphere();
     unsigned int *sphereIndices = Sphere_Indices();

@@ -1,5 +1,3 @@
-// NEXT: milestone 1, split into files (shader loading, sphere mesh, main)
-
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>

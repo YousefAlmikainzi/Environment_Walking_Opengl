@@ -3,14 +3,16 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-void convertFileToString(char* strBuffer, FILE* shaderFile)
+char* convertFileToString(FILE* shaderFile)
 {
     fseek(shaderFile, 0, SEEK_END);
     long fileSize = ftell(shaderFile);
+    char* shaderFileSize = malloc(sizeof(char)* (fileSize+1));
     rewind(shaderFile);
 
-    fread(strBuffer, 1, fileSize, shaderFile);
-    strBuffer[fileSize] = '\0';
+    fread(shaderFileSize, 1, fileSize, shaderFile);
+    shaderFileSize[fileSize] = '\0';
+    return shaderFileSize;
 }
 
 unsigned int loadShader(const char* vertex, const char* fragment)
@@ -18,11 +20,9 @@ unsigned int loadShader(const char* vertex, const char* fragment)
     FILE *vertexFile = fopen(vertex, "rb");
     FILE *fragmentFile = fopen(fragment, "rb");
 
-    char *vertexSize = malloc(sizeof(char) * 2000);
-    char *fragmentSize = malloc(sizeof(char) * 2000);
+    char *vertexSize = convertFileToString(vertexFile);
+    char *fragmentSize = convertFileToString(fragmentFile);
 
-    convertFileToString(vertexSize, vertexFile);
-    convertFileToString(fragmentSize, fragmentFile);
     const char* vertexString = vertexSize;
     const char* fragmentString = fragmentSize;
     fclose(vertexFile);

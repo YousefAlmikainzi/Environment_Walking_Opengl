@@ -3,6 +3,6 @@
 
 #include <stdio.h>
 
-void convertFileToString(char* strBuffer, FILE* shaderFile);
+char* convertFileToString(FILE* shaderFile);
 unsigned int loadShader(const char* vertex, const char* fragment);
 #endif

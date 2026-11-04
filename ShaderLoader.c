@@ -7,12 +7,12 @@ char* convertFileToString(FILE* shaderFile)
 {
     fseek(shaderFile, 0, SEEK_END);
     long fileSize = ftell(shaderFile);
-    char* shaderFileSize = malloc(sizeof(char)* (fileSize+1));
+    char* shaderSource = malloc(sizeof(char)* (fileSize+1));
     rewind(shaderFile);
 
-    fread(shaderFileSize, 1, fileSize, shaderFile);
-    shaderFileSize[fileSize] = '\0';
-    return shaderFileSize;
+    fread(shaderSource, 1, fileSize, shaderFile);
+    shaderSource[fileSize] = '\0';
+    return shaderSource;
 }
 
 unsigned int loadShader(const char* vertex, const char* fragment)
@@ -20,11 +20,11 @@ unsigned int loadShader(const char* vertex, const char* fragment)
     FILE *vertexFile = fopen(vertex, "rb");
     FILE *fragmentFile = fopen(fragment, "rb");
 
-    char *vertexSize = convertFileToString(vertexFile);
-    char *fragmentSize = convertFileToString(fragmentFile);
+    char *vertexSource = convertFileToString(vertexFile);
+    char *fragmentSource = convertFileToString(fragmentFile);
 
-    const char* vertexString = vertexSize;
-    const char* fragmentString = fragmentSize;
+    const char* vertexString = vertexSource;
+    const char* fragmentString = fragmentSource;
     fclose(vertexFile);
     fclose(fragmentFile);
     unsigned int vertexID = 0;
@@ -44,8 +44,8 @@ unsigned int loadShader(const char* vertex, const char* fragment)
     glLinkProgram(shaderLink);
 
 
-    free(vertexSize);
-    free(fragmentSize);
+    free(vertexSource);
+    free(fragmentSource);
     glDeleteShader(vertexID);
     glDeleteShader(fragmentID);
 

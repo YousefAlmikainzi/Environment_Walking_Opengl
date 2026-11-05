@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <math.h>
 
 //My #include
 #include "ShaderLoader.h"
@@ -14,7 +15,13 @@ const int col = 1000;
 const int rowWidth = col + 1;
 int indexCount = col*(row - 1)*6;
 
+typedef struct
+{
+    float m[16];
+} mat4;
+
 void framebuffer(GLFWwindow* window, int width, int height);
+mat4 Matrix_Identity();
 
 int main()
 {
@@ -53,6 +60,8 @@ int main()
     free(sphereIndices);
 
     int colorLoc = glGetUniformLocation(shaderLink, "uColor");
+    int modelLoc = glGetUniformLocation(shaderLink, "model");
+    mat4 model = Matrix_Identity();
 
     while(!glfwWindowShouldClose(window))
     {
@@ -62,6 +71,7 @@ int main()
 
         glBindVertexArray(VAO);
         glUniform3f(colorLoc, 0.0f, 1.0f, 1.0f);
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model.m);
         glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 
         glfwSwapBuffers(window);
@@ -73,4 +83,15 @@ int main()
 void framebuffer(GLFWwindow* window, int width, int height)
 {
     glViewport(0,0,width, height);
+}
+
+mat4 Matrix_Identity()
+{
+    mat4 I = {0};
+
+    I.m[0] = 1;
+    I.m[5] = 1;
+    I.m[10] = 1;
+    I.m[15] = 1;
+    return I;
 }

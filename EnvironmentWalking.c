@@ -6,6 +6,7 @@
 //My #include
 #include "ShaderLoader.h"
 #include "SphereLoader.h"
+#include "MyMath.h"
 
 #define RESOLUTION_Y 800
 #define RESOLUTION_X 800
@@ -15,13 +16,7 @@ const int col = 1000;
 const int rowWidth = col + 1;
 int indexCount = col*(row - 1)*6;
 
-typedef struct
-{
-    float m[16];
-} mat4;
-
 void framebuffer(GLFWwindow* window, int width, int height);
-mat4 Matrix_Identity();
 
 int main()
 {
@@ -83,15 +78,4 @@ int main()
 void framebuffer(GLFWwindow* window, int width, int height)
 {
     glViewport(0,0,width, height);
-}
-
-mat4 Matrix_Identity()
-{
-    mat4 I = {0};
-
-    I.m[0] = 1;
-    I.m[5] = 1;
-    I.m[10] = 1;
-    I.m[15] = 1;
-    return I;
 }

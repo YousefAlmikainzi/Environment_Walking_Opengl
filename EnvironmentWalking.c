@@ -66,7 +66,10 @@ int main()
 
         glBindVertexArray(VAO);
         glUniform3f(colorLoc, 0.0f, 1.0f, 1.0f);
+
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model.m);
+        model = Matrix_Translate(0.0f, 0.0f, 2.f);
+
         glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 
         glfwSwapBuffers(window);

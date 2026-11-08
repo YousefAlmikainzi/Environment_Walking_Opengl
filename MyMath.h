@@ -7,5 +7,6 @@ typedef struct
 } mat4;
 
 mat4 Matrix_Identity();
+mat4 Matrix_Translate(float x, float y, float z);
 
 #endif

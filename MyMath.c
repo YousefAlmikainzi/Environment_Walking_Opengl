@@ -20,3 +20,8 @@ mat4 Matrix_Translate(float x, float y, float z)
     T.m[14] = z;
     return T;
 }
+
+//The GPU divides x, y, z by w automatically, every time, for every vertex for perspective.
+//A matrix can’t divide, so it copies z into w.
+//That’s identity, with the last row changed from [0 0 0 1] to [0 0 1 //0], which means m[11] = 1 and m[15] = 0.
+//Result: far points get divided by a bigger number, land closer to the center, and look smaller.

@@ -8,5 +8,6 @@ typedef struct
 
 mat4 Matrix_Identity();
 mat4 Matrix_Translate(float x, float y, float z);
+mat4 Matrix_Perspective(float FOV, float aspect, float nearZ, float farZ);
 
 #endif

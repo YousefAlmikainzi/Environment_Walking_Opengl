@@ -57,6 +57,7 @@ int main()
     int colorLoc = glGetUniformLocation(shaderLink, "uColor");
     int modelLoc = glGetUniformLocation(shaderLink, "model");
     int projectionLoc = glGetUniformLocation(shaderLink, "projection");
+    int viewLoc = glGetUniformLocation(shaderLink, "view");
 
     mat4 model = Matrix_Identity();
 
@@ -67,14 +68,16 @@ int main()
         glUseProgram(shaderLink);
 
         mat4 projection = Matrix_Perspective(0.785f, (float)RESOLUTION_X/RESOLUTION_Y, .3f, 100);
-
-        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, &projection.m[0]);
-
-        glBindVertexArray(VAO);
-        glUniform3f(colorLoc, 0.0f, 1.0f, 1.0f);
+        mat4 view = Matrix_Translate(0.0f, 0.0f, -3.0f);
+        model = Matrix_Identity();
 
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model.m);
-        model = Matrix_Translate(0.0f, 0.0f, -3.f);
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, view.m);
+        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, projection.m);
+
+        glBindVertexArray(VAO);
+
+        glUniform3f(colorLoc, 0.0f, 1.0f, 1.0f);
 
         glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 

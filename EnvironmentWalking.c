@@ -61,14 +61,25 @@ int main()
 
     mat4 model = Matrix_Identity();
 
+    vec3 cameraPosition = {0,0,3};
+    vec3 cameraTarget = {0,0,0};
+
     while(!glfwWindowShouldClose(window))
     {
+        if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+        {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        } else if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        }
+
         glClearColor(0.3f, 0.1f, 0.9f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(shaderLink);
 
         mat4 projection = Matrix_Perspective(0.785f, (float)RESOLUTION_X/RESOLUTION_Y, .3f, 100);
-        mat4 view = Matrix_Translate(0.0f, 0.0f, -3.0f);
+        mat4 view = Look_At(cameraPosition, cameraTarget);
         model = Matrix_Identity();
 
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model.m);

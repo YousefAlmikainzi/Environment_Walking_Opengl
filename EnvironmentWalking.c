@@ -69,7 +69,8 @@ int main()
         if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
         {
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        } else if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        }
+        if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         {
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         }

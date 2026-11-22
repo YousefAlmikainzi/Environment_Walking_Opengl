@@ -63,12 +63,15 @@ int main()
 
     vec3 cameraPosition = {0,0,3};
     vec3 cameraTarget = {0,0,0};
+    double xpos, ypos;
 
     while(!glfwWindowShouldClose(window))
     {
+        glfwGetCursorPos(window, &xpos, &ypos);
         if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
         {
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            printf("x position: %f, y position: %f", xpos, ypos);
         }
         if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         {

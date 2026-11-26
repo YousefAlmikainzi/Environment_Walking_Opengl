@@ -2,6 +2,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <math.h>
+#include <stdio.h>
+#define PI 3.14159265358979323846
 
 //My #include
 #include "ShaderLoader.h"
@@ -64,19 +66,40 @@ int main()
     vec3 cameraPosition = {0,0,3};
     vec3 cameraTarget = {0,0,0};
     double xpos, ypos;
+    double preXpos = RESOLUTION_X / 2.0;
+    double preYpos = RESOLUTION_Y / 2.0;
+    double changeXpos, changeYpos;
+    int cursorLock = 0;
 
     while(!glfwWindowShouldClose(window))
     {
         glfwGetCursorPos(window, &xpos, &ypos);
+        changeXpos = xpos - preXpos;
+        changeYpos = ypos - preYpos;
+        preXpos = xpos;
+        preYpos = ypos;
         if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
         {
-            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-            printf("x position: %f, y position: %f", xpos, ypos);
+            if(!cursorLock)
+            {
+                cursorLock = 1;
+                glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            }
         }
-        if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        else
         {
+            cursorLock = 0;
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         }
+
+        if(cursorLock)
+        {
+            printf("Position X: %f, Position Y: %f Change X: %f, Change Y: %f\n", xpos, ypos, changeXpos, changeYpos);
+        }
+
+        float phi = (float)glfwGetTime() * (2.0f * PI / 6.0f);
+        cameraPosition.x = 3.0f * cosf(phi);
+        cameraPosition.z = 3.0f * sinf(phi);
 
         glClearColor(0.3f, 0.1f, 0.9f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

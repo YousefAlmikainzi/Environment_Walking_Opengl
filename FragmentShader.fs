@@ -1,6 +1,7 @@
 #version 330
 
 uniform vec3 uColor;
+uniform vec3 cameraPosition;
 
 in vec3 yColor;
 in vec3 o_normal;

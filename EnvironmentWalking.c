@@ -57,6 +57,8 @@ int main()
     free(sphereIndices);
 
     int colorLoc = glGetUniformLocation(shaderLink, "uColor");
+    int cameraLoc = glGetUniformLocation(shaderLink, "cameraPosition");
+
     int modelLoc = glGetUniformLocation(shaderLink, "model");
     int projectionLoc = glGetUniformLocation(shaderLink, "projection");
     int viewLoc = glGetUniformLocation(shaderLink, "view");
@@ -64,12 +66,13 @@ int main()
     mat4 model = Matrix_Identity();
 
     vec3 cameraPosition = {0,0,3};
-    vec3 cameraTarget = {0,0,0};
+    vec3 cameraTarget = {1,0,0};
     double xpos, ypos;
     double preXpos = RESOLUTION_X / 2.0;
     double preYpos = RESOLUTION_Y / 2.0;
     double changeXpos, changeYpos;
     int cursorLock = 0;
+    float theta = PI / 3.0f;
 
     while(!glfwWindowShouldClose(window))
     {
@@ -98,12 +101,14 @@ int main()
         }
 
         float phi = (float)glfwGetTime() * (2.0f * PI / 6.0f);
-        cameraPosition.x = 3.0f * cosf(phi);
-        cameraPosition.z = 3.0f * sinf(phi);
+        cameraPosition.x = 3.0f * sinf(theta) * cosf(phi) + 1.0f;
+        cameraPosition.y = 3.0f *cosf(theta);
+        cameraPosition.z = 3.0f * sinf(phi) * sinf(theta);
 
         glClearColor(0.3f, 0.1f, 0.9f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(shaderLink);
+        glUniform3f(cameraLoc, cameraPosition.x, cameraPosition.y, cameraPosition.z);
 
         mat4 projection = Matrix_Perspective(0.785f, (float)RESOLUTION_X/RESOLUTION_Y, .3f, 100);
         mat4 view = Look_At(cameraPosition, cameraTarget);
